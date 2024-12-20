@@ -1,0 +1,15 @@
+@import "https://cssicon.space/css/icons.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.icon,
+.icon:before,
+.icon:after,
+.icon i,
+.icon i:before,
+.icon i:after {
+  transition: all 0.4s ease;
+}
