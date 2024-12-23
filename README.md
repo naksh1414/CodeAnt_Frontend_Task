@@ -51,11 +51,8 @@ npm run dev
 src/
 ├── components/        # Reusable UI components
 ├── pages/            # Route pages
-├── hooks/            # Custom React hooks
-├── utils/            # Helper functions
-├── types/            # TypeScript type definitions
+├── store/            # Custom React hooks
 ├── assets/           # Static assets
-└── styles/           # Global styles and Tailwind config
 ```
 
 ## 🎯 Implementation Highlights
@@ -97,7 +94,7 @@ src/
    - Improved accessibility
 
 ## 🤝 About Me
-I'm a final-year student passionate about frontend development and creating exceptional user experiences. This project showcases my ability to:
+I'm a Third-year student passionate about Full stack development ,Docker and creating exceptional user experiences. This project showcases my ability to:
 
 - Build scalable React applications
 - Write clean, maintainable code
