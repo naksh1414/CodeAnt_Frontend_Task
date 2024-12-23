@@ -1,50 +1,115 @@
-# React + TypeScript + Vite
+# Frontend Developer Intern Assignment - CodeAnt AI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
+This repository contains my submission for the Frontend Developer Intern position at CodeAnt AI. The project demonstrates my proficiency in React.js, modern frontend development practices, and UI/UX sensibilities.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
+[Live Demo Link - for Dashboard](https://codeantfrontendtask-production.up.railway.app/dashboard)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Live Demo Link ](https://codeantfrontendtask-production.up.railway.app)
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
+- React.js
+- Tailwind CSS
+- TypeScript
+- Vite
+- React Router
+- React Query
+- Redux Toolkit
+- Github Access Token
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## ✨ Features
+- Responsive design that works seamlessly across all device sizes
+- Modern, clean user interface with attention to detail
+- Optimized performance with efficient component rendering
+- Type-safe implementation using TypeScript
+- Robust error handling and loading states
+- Accessible UI components following WCAG guidelines
 
-- Configure the top-level `parserOptions` property like this:
+## 🏃‍♂️ Running Locally
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+1. Clone the repository
+```bash
+git clone https://github.com/naksh1414/CodeAnt_Frontend_Task
+cd codeant-frontend-assignment
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+2. Install dependencies
+```bash
+npm install
 ```
+
+3. Start the development server
+```bash
+npm run dev
+```
+
+4. Open http://localhost:5173 in your browser
+
+## 📁 Project Structure
+```
+src/
+├── components/        # Reusable UI components
+├── pages/            # Route pages
+├── hooks/            # Custom React hooks
+├── utils/            # Helper functions
+├── types/            # TypeScript type definitions
+├── assets/           # Static assets
+└── styles/           # Global styles and Tailwind config
+```
+
+## 🎯 Implementation Highlights
+
+### 1. Component Architecture
+- Used atomic design principles for component organization
+- Implemented custom hooks for business logic separation
+- Maintained consistent prop interfaces across components
+
+### 2. Performance Optimizations
+- Lazy loading of route components
+- Debounced search inputs
+- Memoized expensive computations
+- Optimized asset loading and delivery
+
+### 3. Code Quality
+- Consistent code formatting with ESLint and Prettier
+- Comprehensive TypeScript types
+- Unit tests for critical components
+- Documented component props and functions
+
+## 📝 Development Process
+
+1. **Planning Phase**
+   - Analyzed requirements thoroughly
+   - Created component wireframes
+   - Planned the technical architecture
+
+2. **Implementation Phase**
+   - Set up project with Vite and TypeScript
+   - Implemented core components
+   - Added routing and state management
+   - Styled with Tailwind CSS
+
+3. **Testing & Refinement**
+   - Conducted cross-browser testing
+   - Optimized performance
+   - Added error boundaries
+   - Improved accessibility
+
+## 🤝 About Me
+I'm a final-year student passionate about frontend development and creating exceptional user experiences. This project showcases my ability to:
+
+- Build scalable React applications
+- Write clean, maintainable code
+- Implement responsive and accessible designs
+- Follow modern development practices
+
+## 📬 Contact
+- Email: [Nakshatramanglik14@gmail.com](mailto:Nakshatramanglik14@gmail.com)
+- LinkedIn: [Nakshatra Manglik](https://www.linkedin.com/in/nakshatra-manglik)
+- GitHub: [@naksh1414](https://github.com/naksh1414)
+
+---
+
+Thank you for considering my application! I'm excited about the possibility of joining CodeAnt AI and contributing to your team's success.
+
