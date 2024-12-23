@@ -83,7 +83,7 @@ export const fetchRepositories = createAsyncThunk(
   "repository/fetchRepositories",
   async (username: string, { rejectWithValue }) => {
     try {
-      const token = "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";
+      const token = import.meta.env.VITE_GITHUB_TOKEN;
       console.log(token);
       if (!token) {
         throw new Error("GitHub token not found");
