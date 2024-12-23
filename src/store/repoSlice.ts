@@ -83,7 +83,7 @@ export const fetchRepositories = createAsyncThunk(
   "repository/fetchRepositories",
   async (username: string, { rejectWithValue }) => {
     try {
-      const token = "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";
+      const token = "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";
       if (!token) {
         throw new Error("GitHub token not found");
       }
