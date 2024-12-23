@@ -10,6 +10,7 @@ interface PaginationControlsProps {
   startIndex: number;
   endIndex: number;
   totalItems: number;
+  hasMore: boolean;
 }
 
 export const PaginationControls: React.FC<PaginationControlsProps> = ({
@@ -19,8 +20,8 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
   itemsPerPage,
   onItemsPerPageChange,
   startIndex,
-  endIndex,
   totalItems,
+  hasMore,
 }) => {
   return (
     <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-lg border">
@@ -36,8 +37,8 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
           <option value={20}>20</option>
         </select>
         <span className="text-sm text-gray-600">
-          Showing {startIndex + 1}-{Math.min(endIndex, totalItems)} of{" "}
-          {totalItems}
+          Showing {startIndex + 1}-{totalItems}
+        
         </span>
       </div>
 
@@ -79,7 +80,7 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
 
         <button
           onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
+          disabled={!hasMore}
           className="p-2 border rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <ChevronRight className="w-4 h-4" />

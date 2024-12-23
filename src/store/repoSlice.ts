@@ -33,7 +33,14 @@ interface RepositoryState {
     currentPage: number;
     itemsPerPage: number;
     totalItems: number;
+    hasMore: boolean;
   };
+}
+
+interface FetchRepositoriesParams {
+  username: string;
+  page: number;
+  perPage: number;
 }
 
 const initialState: RepositoryState = {
@@ -46,6 +53,7 @@ const initialState: RepositoryState = {
     currentPage: 1,
     itemsPerPage: 5,
     totalItems: 0,
+    hasMore: true,
   },
 };
 
@@ -81,7 +89,10 @@ const mapGitHubRepository = (repo: GitHubRepository): Repository => ({
 // Async thunk for fetching repositories
 export const fetchRepositories = createAsyncThunk(
   "repository/fetchRepositories",
-  async (username: string, { rejectWithValue }) => {
+  async (
+    { username, page, perPage }: FetchRepositoriesParams,
+    { rejectWithValue }
+  ) => {
     try {
       const token = import.meta.env.VITE_GITHUB_TOKEN;
       console.log(token);
@@ -90,7 +101,7 @@ export const fetchRepositories = createAsyncThunk(
       }
 
       const response = await fetch(
-        `https://api.github.com/users/${username}/repos`,
+        `https://api.github.com/users/${username}/repos?page=${page}&per_page=${perPage}`,
         {
           headers: {
             Authorization: `token ${token}`,
@@ -103,8 +114,15 @@ export const fetchRepositories = createAsyncThunk(
         throw new Error(`GitHub API error: ${response.statusText}`);
       }
 
+      const linkHeader = response.headers.get("Link");
+      const hasMore = linkHeader?.includes('rel="next"') ?? false;
+      const totalCount = parseInt(response.headers.get("x-total-count") || "0");
       const data = (await response.json()) as GitHubRepository[];
-      return data.map(mapGitHubRepository);
+      return {
+        repositories: data.map(mapGitHubRepository),
+        hasMore,
+        totalCount,
+      };
     } catch (error) {
       return rejectWithValue(
         error instanceof Error ? error.message : "Failed to fetch repositories"
@@ -130,7 +148,7 @@ const repositorySlice = createSlice({
           repo.name.toLowerCase().includes(query) ||
           repo.description?.toLowerCase().includes(query)
       );
-      state.pagination.currentPage = 1; // Reset to first page on search
+      state.pagination.currentPage = 1;
       state.pagination.totalItems = state.filteredRepos.length;
     },
     setPage: (state, action: PayloadAction<number>) => {
@@ -138,10 +156,17 @@ const repositorySlice = createSlice({
     },
     setItemsPerPage: (state, action: PayloadAction<number>) => {
       state.pagination.itemsPerPage = action.payload;
-      state.pagination.currentPage = 1; // Reset to first page when changing items per page
+      state.pagination.currentPage = 1;
     },
     clearError: (state) => {
       state.error = null;
+    },
+    resetRepositories: (state) => {
+      state.repositories = [];
+      state.filteredRepos = [];
+      state.pagination.currentPage = 1;
+      state.pagination.hasMore = true;
+      state.pagination.totalItems = 0;
     },
   },
   extraReducers: (builder) => {
@@ -152,9 +177,17 @@ const repositorySlice = createSlice({
       })
       .addCase(fetchRepositories.fulfilled, (state, action) => {
         state.loading = false;
-        state.repositories = action.payload;
-        state.filteredRepos = action.payload;
-        state.pagination.totalItems = action.payload.length;
+        if (state.pagination.currentPage === 1) {
+          state.repositories = action.payload.repositories;
+        } else {
+          state.repositories = [
+            ...state.repositories,
+            ...action.payload.repositories,
+          ];
+        }
+        state.filteredRepos = state.repositories;
+        state.pagination.totalItems = state.repositories.length;
+        state.pagination.hasMore = action.payload.hasMore;
         state.error = null;
       })
       .addCase(fetchRepositories.rejected, (state, action) => {
