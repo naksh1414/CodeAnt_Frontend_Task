@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Github, GitlabIcon } from "lucide-react";
 import place from "../../assets/Subtract1.png";
 import bg from "../../assets/Subtract.png";
@@ -7,6 +7,10 @@ import azureLogo from "../../assets/azure.png";
 import vectorImage from "../../assets/vector_image.png";
 import keySso from "../../assets/key.png";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { signInWithGithub } from "../../services/auth";
+import { useNavigate } from "react-router-dom";
 interface Stat {
   label: string;
   value: string;
@@ -20,18 +24,33 @@ interface LoginPageProps {
 type AuthProvider = "github" | "bitbucket" | "azure" | "gitlab";
 type HostingType = "saas" | "self-hosted";
 
-const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onToggleHosting }) => {
+const LoginPage: React.FC<LoginPageProps> = ({ onToggleHosting }) => {
+  
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, error, user } = useSelector(
+    (state: RootState) => state.auth
+  );
   const [hostingType, setHostingType] = useState<HostingType>("saas");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
+
+  const handleLogin = async (provider: AuthProvider): Promise<void> => {
+    if (provider === "github") {
+      await signInWithGithub(dispatch);
+    }
+  };
 
   const stats: Stat[] = [
     { label: "Language Support", value: "30+" },
     { label: "Developers", value: "10K+" },
     { label: "Hours Saved", value: "100K+" },
   ];
-
-  const handleLogin = (provider: AuthProvider): void => {
-    onLogin?.(provider);
-  };
 
   const handleHostingToggle = (type: HostingType): void => {
     setHostingType(type);
@@ -129,9 +148,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onToggleHosting }) => {
               </div>
             </div>
             <div>
-              <div className="font-bold mt-2">
-                Issues Fixed
-              </div>
+              <div className="font-bold mt-2">Issues Fixed</div>
               <div className="font-bold text-4xl">500K+</div>
             </div>
           </div>
@@ -178,10 +195,19 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onToggleHosting }) => {
                 className="w-full flex items-center justify-center gap-2 py-2 px-4 border rounded-md hover:bg-gray-50 text-sm lg:text-base"
                 onClick={() => handleLogin(provider as AuthProvider)}
               >
-                {icon}
+                {loading && provider === "github" ? (
+                  <div className="w-5 h-5 border-2 border-gray-600 border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  icon
+                )}
                 Sign in with {label}
               </button>
             ))}
+            {error && (
+              <div className="bg-red-50 text-red-500 p-3 rounded-md mb-4">
+                {error}
+              </div>
+            )}
           </div>
 
           <div className="text-center text-xs lg:text-sm text-gray-600 mt-4 lg:mt-6">
