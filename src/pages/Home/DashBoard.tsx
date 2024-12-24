@@ -6,9 +6,11 @@ import Modal from "../../components/Modal/Modal";
 import logo from "../../assets/Subtract1.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { RootState } from "../../store";
 import { PaginationControls } from "../../components/Pagination";
 import { MobileDrawer } from "../../components/Drawer/MobileDrawer";
 import RepoCard from "../../components/RepoCard/Card";
+import { useNavigate } from "react-router-dom";
 import {
   fetchRepositories,
   setPage,
@@ -17,6 +19,17 @@ import {
 
 const RepositoriesDashboard = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { user } = useAppSelector((state: RootState) => state.auth);
+  console.log("User:", user);
+  // Redirect to login if no user
+  useEffect(() => {
+    if (!user) {
+      navigate("/"); // Assuming you have a /login route
+      return;
+    }
+  }, [user, navigate]);
+
   const {
     filteredRepos: Repos,
     loading,
@@ -100,6 +113,8 @@ const RepositoriesDashboard = () => {
     );
   }
 
+ 
+
   return (
     <div className="max-h-screen bg-gray-50 flex flex-col md:flex-row">
       {/* Sidebar */}
@@ -132,9 +147,7 @@ const RepositoriesDashboard = () => {
         <div className="flex md:flex-row flex-col bg-white border-2 p-4 rounded-xl justify-start md:justify-between md:items-center mb-6">
           <div>
             <h1 className="text-2xl font-bold mb-1">Repositories</h1>
-            <p className="text-gray-600">
-              {totalItems} total repositories
-            </p>
+            <p className="text-gray-600">{totalItems} total repositories</p>
           </div>
           <div className="flex gap-2 md:mt-0 mt-4">
             <button
