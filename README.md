@@ -3,10 +3,8 @@
 ## Project Overview
 This repository contains my submission for the Frontend Developer Intern position at CodeAnt AI. The project demonstrates my proficiency in React.js, modern frontend development practices, and UI/UX sensibilities.
 
-## 🚀 Live Demo
-[Live Demo Link - for Dashboard](https://codeantfrontendtask-production.up.railway.app/dashboard)
-
-[Live Demo Link ](https://codeantfrontendtask-production.up.railway.app)
+## 🚀 Live Demo - 
+[Live Demo Link ](https://codeantfrontendtask-production.up.railway.app) (as of now only github auth works.)
 
 ## 🛠️ Tech Stack
 - React.js
